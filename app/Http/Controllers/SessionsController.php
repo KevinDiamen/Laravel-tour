@@ -22,6 +22,7 @@ class SessionsController extends Controller
       		'email' => 'required|email|max:255',
       		'password' => 'required'
       	  ]);
+        
 
       	$credentials = [
              'email'    => $request->email,
