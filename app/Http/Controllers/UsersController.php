@@ -8,9 +8,21 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Models\User;
+use Auth;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', [
+            'only' => ['edit', 'update']
+        ]);
+
+        $this->middleware('guest', [
+            'only' => ['create']
+        ]);
+    }
+
     public function create()
     {
         return view('users.create');
@@ -18,7 +30,8 @@ class UsersController extends Controller
 
     public function show($id)
     {
-    	$user = User::findOrFail($id);
+        $user = Auth::user();
+    	//$user = User::findOrFail($id);
     	return view('users.show', compact('user'));
     }
 
@@ -43,6 +56,7 @@ class UsersController extends Controller
     public function edit($id, Request $request)
     {
         $user = User::findOrFail($id);
+        $this->authorize('update', $user);
         return view('users.edit', compact('user'));
     }
 
@@ -54,6 +68,8 @@ class UsersController extends Controller
         ]);
 
         $user = User::findOrFail($id);
+        $this->authorize('update', $user);
+
         $data = [];
         $data['name'] = $request->name;
         if ($request->password) {
