@@ -15,7 +15,7 @@ class UsersController extends Controller
     public function __construct()
     {
         $this->middleware('auth', [
-            'only' => ['edit', 'update']
+            'only' => ['edit', 'update', 'destroy']
         ]);
 
         $this->middleware('guest', [
@@ -37,6 +37,8 @@ class UsersController extends Controller
 
     public function store(Request $request)
     {
+        var_dump(bcrypt('password'));
+        exit;
         $this->validate($request, [
             'name' => 'required|max:50',
             'email' => 'required|email|unique:users|max:255',
@@ -80,6 +82,15 @@ class UsersController extends Controller
         session()->flash('success', '个人资料更新成功！');
 
         return redirect()->route('users.show', $id);
+    }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $this->authorize('destroy', $user);
+        $user->delete();
+        session()->flash('success', '成功删除用户！');
+        return back();
     }
 
     public function index()
