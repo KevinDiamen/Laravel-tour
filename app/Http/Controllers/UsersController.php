@@ -37,8 +37,7 @@ class UsersController extends Controller
 
     public function store(Request $request)
     {
-        var_dump(bcrypt('password'));
-        exit;
+
         $this->validate($request, [
             'name' => 'required|max:50',
             'email' => 'required|email|unique:users|max:255',
