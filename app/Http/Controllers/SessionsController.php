@@ -20,11 +20,13 @@ class SessionsController extends Controller
     
     public function create()
     {
+      var_dump(bcrypt('password'));
     	 return view('sessions.create');
     }
 
     public function store(Request $request)
     {
+
       	$this->validate($request, [
       		'email' => 'required|email|max:255',
       		'password' => 'required'
