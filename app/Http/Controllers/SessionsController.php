@@ -20,7 +20,6 @@ class SessionsController extends Controller
     
     public function create()
     {
-      var_dump(bcrypt('password'));
     	 return view('sessions.create');
     }
 
