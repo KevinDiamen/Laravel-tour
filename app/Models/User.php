@@ -87,5 +87,4 @@ class User extends Model implements AuthenticatableContract,
       }
       $this->followings()->detach($user_ids);
     }
-
 }
